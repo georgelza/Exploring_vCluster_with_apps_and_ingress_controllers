@@ -24,20 +24,20 @@ We want to model three applications, web pages or API apps (there is actually no
 Our design will be:
 
 - Single shared Traefik Application Proxy 
-- App1 and App2 will be in the same namespace (webstack1) and will be sharing a Ingress Controller, with separate (two) access paths
-- App3 will be in a second/separate namespace (webstack2) and will have a dedicated Ingress Controller, with separate (3rd) access path
+- **App1** and **App2** will be in the same namespace (`webstack1`) and will be sharing a Ingress Controller, with separate (two) access paths
+- **App3** will be in a second/separate namespace (`webstack2`) and will have a dedicated Ingress Controller, with separate (3rd) access path
 
 The apps will be able to be migrated across the Kubernetes nodes, so we need to consider PV and PVC's design.
 
 ### App1, App2 - Deployed in shared namespace, using single Traefik Application Proxy and single Ingress Controller
 
-<img src="blog-doc/diagrams/SuperLabv3.0-2App.png" alt="Stack 1" width="450" height="350">
+<img src="blog-doc/diagrams/SuperLabv3.0-2App.png" alt="App1 and App2" width="450" height="350">
 
 
 ### App1, App2 and App3 - Deployed two namespaces, using single Traefik Application Proxy's and two Ingress Controllers
 
 
-<img src="blog-doc/diagrams/SuperLabv3.0-3App.png" alt="Stack 2" width="450" height="350">
+<img src="blog-doc/diagrams/SuperLabv3.0-3App.png" alt="App1 -> App3" width="450" height="350">
 
 
 The examples here are not [vCluster](https://github.com/loft-sh/vcluster) specific, it's more generic Kubernetes, but it shows how we can utilise [vCluster](https://github.com/loft-sh/vcluster) on local desktop/laptop running inside Docker. 
