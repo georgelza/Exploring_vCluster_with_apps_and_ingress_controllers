@@ -53,16 +53,63 @@ Now, I'm not ignoring that there are other ways/solutions to do this, but for me
 
 ### Storage Architecture (Critical):
 
-- All 3 workers have a `/data` directory (and is shared), which originates from the host from `./data/vc1`, see: `vcluster.yaml`
-- Each pod/deployment is then allocated a dedicated pv 
-  - Local host ./data/vc1/nginx1 -> as /data/nginx1/ on cluster vc-pv-nginx1
-  - Local host ./data/vc1/nginx2 -> as /data/nginx2/ on cluster vc-pv-nginx2
-  - Local host ./data/vc1/nginx3 -> as /data/nginx3/ on cluster vc-pv-nginx3
+- All three workers have a **`/data`** directory (which is shared across the cluster), which originates from the host from **`./data/vc1`**
 
-- Each pod/deployment then have a pvc created in it's assigned pv.
-  - vc-pvc-nginx1
-  - vc-pvc-nginx2
-  - vc-pvc-nginx3
+Below you can see each ode has a volumes property where we map the host **`./data/vc1`** directory into the node/container into **`/data`** directory.
+
+```yaml
+# vcluster.yaml
+# https://github.com/loft-sh/vind/blob/main/docs/configuration.md
+# Kubernetes version (optional, defaults to v1.35.0)
+controlPlane:
+  distro:
+    k8s:
+      version: "v1.35.0"
+
+experimental:
+  docker:
+    # Environment variables
+    env:
+      - "CLUSTER_NAME=my-vc1"
+      - "ENVIRONMENT=development"
+
+    nodes:
+    - name: "worker-1"
+      volumes:
+        - "./data/vc1:/data"
+      env:
+        - "NODE_ROLE=worker"
+        - "NODE_LABEL=worker"
+
+    - name: "worker-2"
+      volumes:
+        - "./data/vc1:/data"
+      env:
+        - "NODE_ROLE=worker"
+        - "NODE_LABEL=worker"
+
+    - name: "worker-3"
+      volumes:
+        - "./data/vc1:/data"
+      env:
+        - "NODE_ROLE=worker"
+        - "NODE_LABEL=worker"
+```
+
+- Each pod/deployment is then allocated a dedicated pv 
+```bash
+Local host ./data/vc1/nginx1 mapped to /data/nginx1/ as pv vc-pv-nginx1
+Local host ./data/vc1/nginx2 mapped to /data/nginx2/ as pv vc-pv-nginx2
+Local host ./data/vc1/nginx3 mapped to /data/nginx3/ as pv vc-pv-nginx3
+```
+
+
+- Each pod/deployment then have a pvc created in it's assigned pv, these are in the same namespace where the app/pod will reside, i.e.: 
+```bash
+  webstack1 for vc-pvc-nginx1 inside vc-pv-nginx1
+  webstack1 for vc-pvc-nginx2 inside vc-pv-nginx2
+  webstack2 for vc-pvc-nginx3 inside vc-pv-nginx3
+```
 
 Using the above pattern the pod's can move across the cluster onto any worker and still have access to it's pvc.
 
