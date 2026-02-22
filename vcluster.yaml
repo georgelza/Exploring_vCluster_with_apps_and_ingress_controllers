@@ -5,7 +5,11 @@ controlPlane:
   distro:
     k8s:
       version: "v1.35.0"
-
+  backingStore:
+    etcd:
+      embedded:
+        enabled: true
+        
 experimental:
   docker:
     # Environment variables
