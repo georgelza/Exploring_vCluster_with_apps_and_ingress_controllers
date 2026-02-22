@@ -1,6 +1,6 @@
 ## How to: Web apps on Kubernetes deployed on vCluster, configured with Traefik App Proxy and Ingress Controllers
 
-Welcome to The Rabbit Hole
+Welcome to [The Rabbit Hole](https://medium.com/@georgelza/list/the-rabbit-hole-0df8e3155e33)
 
 The idea, how do we build out a Microservices development environment, enabling the devloper to be productive, locally, without access to a full enterprise hosted Kubernetes stack. This is always the cunandrum for developers when developing for container based deployment.
 
@@ -130,13 +130,13 @@ GIT: [Exploring_vCluster_with_apps_and_ingress_controllers](https://github.com/g
 
 ## vCluster Project Pages
 
-- [VIND](https://github.com/loft-sh/vind)
-
 - [vCluster](https://github.com/loft-sh/vcluster)
 
 - [Full Quickstart Guide](https://www.vcluster.com/docs/vcluster/#deploy-vcluster)
 
 - [Slack Seerver](https://slack.loft.sh/)
+
+- [VIND](https://github.com/loft-sh/vind)
 
 
 ## Supporting Background Information
