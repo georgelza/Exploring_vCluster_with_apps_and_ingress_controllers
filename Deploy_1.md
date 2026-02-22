@@ -14,6 +14,12 @@ sudo vcluster create my-vc1 --values vcluster.yaml
 # ============================================
 kubectl get nodes
 kubectl get namespaces
+
+# Lets Label our nodes correctly, little attention to detail
+kubectl label node worker-1 worker-2 worker-3 node-role.kubernetes.io/worker=worker
+
+# Notice the difference
+kubectl get nodes
 ```
 
 ```bash

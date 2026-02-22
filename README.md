@@ -106,9 +106,9 @@ Local host ./data/vc1/nginx3 mapped to /data/nginx3/ as pv vc-pv-nginx3
 
 - Each pod/deployment then have a pvc created in it's assigned pv, these are in the same namespace where the app/pod will reside, i.e.: 
 ```bash
-  webstack1 for vc-pvc-nginx1 inside vc-pv-nginx1
-  webstack1 for vc-pvc-nginx2 inside vc-pv-nginx2
-  webstack2 for vc-pvc-nginx3 inside vc-pv-nginx3
+ns: webstack1 for vc-pvc-nginx1 inside vc-pv-nginx1
+ns: webstack1 for vc-pvc-nginx2 inside vc-pv-nginx2
+ns: webstack2 for vc-pvc-nginx3 inside vc-pv-nginx3
 ```
 
 Using the above pattern the pod's can move across the cluster onto any worker and still have access to it's pvc.
