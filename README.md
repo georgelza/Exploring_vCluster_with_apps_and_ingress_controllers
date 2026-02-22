@@ -1,4 +1,4 @@
-## How to, the basics for vCluster on Docker with local PV/PVC.
+## How to: Web apps on Kubernetes deployed on vCluster, configured with Traefik App Proxy and Ingress Controllers
 
 Welcome to The Rabbit Hole
 
