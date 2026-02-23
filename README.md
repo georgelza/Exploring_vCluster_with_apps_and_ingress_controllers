@@ -4,7 +4,7 @@ Welcome to [The Rabbit Hole](https://medium.com/@georgelza/list/the-rabbit-hole-
 
 The idea, how do we build out a Microservices development environment, enabling the devloper to be productive, locally, without access to a full enterprise hosted Kubernetes stack. This is always the cunandrum for developers when developing for container based deployment.
 
-Introduce [vCluster](https://github.com/loft-sh/vcluster)... This allows us to run a virtual Kubernetes cluster inside Docker, mind you it allows you to run virtual Kubernetes clusters inside hosting Kubernetes clusters, inside namespaces. It enables you to significantly more than what I am showing here. 
+Introduce [vCluster](https://github.com/loft-sh/vcluster)... This allows us to run a virtual Kubernetes cluster inside [Docker](https://www.docker.com), mind you it allows you to run virtual Kubernetes clusters inside hosting Kubernetes clusters, inside namespaces. It enables you to significantly more than what I am showing here. 
 
 ### What is vCluster
 
@@ -27,7 +27,7 @@ Our design will be:
 - **App1** and **App2** will be in the same namespace (`webstack1`) and will be sharing a Ingress Controller, with separate (two) access paths
 - **App3** will be in a second/separate namespace (`webstack2`) and will have a dedicated Ingress Controller, with separate (3rd) access path
 
-The apps will be able to be migrated across the Kubernetes nodes, so we need to consider PV and PVC's design.
+The apps will be able to be migrated across the Kubernetes nodes, so we need to consider [Persistent Volume (PV)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) and PVC's design. See: **Storage Architecture** section below.
 
 ### App1, App2 - Deployed in shared namespace, using single Traefik Application Proxy and single Ingress Controller
 
@@ -42,13 +42,13 @@ The apps will be able to be migrated across the Kubernetes nodes, so we need to 
 
 The examples here are not [vCluster](https://github.com/loft-sh/vcluster) specific, it's more generic Kubernetes, but it shows how we can utilise [vCluster](https://github.com/loft-sh/vcluster) on local desktop/laptop running inside Docker. 
 
-by doing this we're providing the developer with a local developement environment to develope and test in vs using a single Docker or Docker-Compose environment.
+by doing this we're providing the developer with a local developement environment to develope and test in vs using a single [Docker](https://www.docker.com) or [docker-compose](https://docs.docker.com/compose/) environment.
 
 I'm not against Docker-Compose, it's an amazing stack and I use it extensively myself, it's simple, and easy to use to deploy as part of a demo, but for artifacts to be produced, to be deployed into a production like K8S environment, as part of a project deliverables, there are gaps, which by using K8S on [vCluster](https://github.com/loft-sh/vcluster) on Docker we can solve for the developer.
 
-You can even run them side by side (Kubernetes on vCluster next to docker-compose) if you really want to ;)
+You can even run them side by side (Kubernetes on [vCluster](https://github.com/loft-sh/vcluster) next to [docker-compose](https://docs.docker.com/compose/)) if you really want to ;)
 
-Now, I'm not ignoring that there are other ways/solutions to do this, but for me, vCluster is attractive.
+Now, I'm not ignoring that there are other ways/solutions to do this, but for me, [vCluster](https://github.com/loft-sh/vcluster) is attractive.
 
 Blog: [How to: Web apps on Kubernetes deployed on vCluster, configured with Traefik App Proxy and Ingress Controllers](https://medium.com/@georgelza/how-to-web-apps-on-kubernetes-deployed-on-vcluster-configured-with-traefik-app-proxy-and-ingress-c79cfea7111c)
 
