@@ -17,7 +17,7 @@ THIS, what follows below, is for my use case...
 
 Ok, so we demostrated vCluster in the previous [Blog](https://medium.com/@georgelza/exploring-vcluster-as-solution-to-running-k8s-locally-inside-docker-6ea233c67726) you would say, and you would be right, we only covered the basics. And thats it. It was really only the basics. 
 
-Lets now go a bit deeper. 
+**Lets now go a bit deeper.**
 
 We want to model three applications, web pages or API apps (there is actually no difference here, they both listen for calls based on a URL/port using http/https). 
 
@@ -50,6 +50,7 @@ You can even run them side by side (Kubernetes on vCluster next to docker-compos
 
 Now, I'm not ignoring that there are other ways/solutions to do this, but for me, vCluster is attractive.
 
+Blog: [How to: Web apps on Kubernetes deployed on vCluster, configured with Traefik App Proxy and Ingress Controllers](https://medium.com/@georgelza/how-to-web-apps-on-kubernetes-deployed-on-vcluster-configured-with-traefik-app-proxy-and-ingress-c79cfea7111c)
 
 ### Storage Architecture (Critical):
 
@@ -204,12 +205,13 @@ GIT: [Exploring_vCluster_with_apps_and_ingress_controllers](https://github.com/g
 
 - [CEPHFS as Cluster aware file system for Kubernetes](https://ceph.io/en/)
   
-**THE END**
+## THE END
 
 And like that we’re done with our little trip down another Rabbit Hole, Till next time.
 
 Thanks for following. 
 
+Whats next… Hmm, thinking of maybe taking this stack and adding some observability tooling… [Prometheus](https://prometheus.io)/[Grafana](https://grafana.com)/[Elastic](https://www.elastic.co)
 
 ### The Rabbit Hole
 
