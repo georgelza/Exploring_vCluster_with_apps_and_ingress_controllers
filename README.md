@@ -10,7 +10,7 @@ Introduce [vCluster](https://github.com/loft-sh/vcluster)... This allows us to r
 
 As per the [Project](https://www.vcluster.com/docs/vcluster/introduction/what-are-virtual-clusters) web page:
 
-`vCluster is an open source solution that enables teams to run virtual Kubernetes clusters inside existing infrastructure. It helps platform engineers create secure, isolated environments for development, testing, CI/CD, and even production workloads, without the cost or overhead of managing separate physical clusters.`
+>vCluster is an open source solution that enables teams to run virtual Kubernetes clusters inside existing infrastructure. It helps platform engineers create secure, isolated environments for development, testing, CI/CD, and even production workloads, without the cost or overhead of managing separate physical clusters.
 
 
 THIS, what follows below, is for my use case...
@@ -53,9 +53,15 @@ Now, I'm not ignoring that there are other ways/solutions to do this, but for me
 
 ### Storage Architecture (Critical):
 
-- All three workers have a **`/data`** directory (which is shared across the cluster), which originates from the host from **`./data/vc1`**
+This is probably one of the most critical concepts in the world of Kubernetes (K8s). Kubernetes work with the concept that containers are immutable, aka cannot be changed. All data that the container reads and writes is located in a PVC.
+As you will see below, All three workers have a **`/data`** directory (which is shared across the cluster), which originates from the host from **`./data/vc1`**. 
+This enables a container to be shut down on one node and restarted on another and then get access back to the data it previously worked on.
+The data resides inside Persistent Volume Claim (PVC's) owned by the container, which is allocated from a K8s resource: [Persistent Volume (PV)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/). The PV/PVC need to be accessible across the nodes of a K8s cluster to enable the container to be spun up on any node and be able to connect to it's assigned PVC.
 
-Below you can see each ode has a volumes property where we map the host **`./data/vc1`** directory into the node/container into **`/data`** directory.
+> You would be well advised to spend a fair amount of time getting familiar with storage, PV, PVC's, classes etc and how they are provisioned for K8S clusters.
+
+
+Below you can see each node has a volumes property where we map the host **`./data/vc1`** (./data is my local directory, vc1 is for this cluster, I have multiple clusters running at the same time) directory into the node/container into a common directory, **`/data`**.
 
 ```yaml
 # vcluster.yaml
@@ -65,6 +71,10 @@ controlPlane:
   distro:
     k8s:
       version: "v1.35.0"
+  backingStore:
+    etcd:
+      embedded:
+        enabled: true
 
 experimental:
   docker:
@@ -96,7 +106,8 @@ experimental:
         - "NODE_LABEL=worker"
 ```
 
-- Each pod/deployment is then allocated a dedicated pv 
+Each pod/deployment is then allocated a dedicated [Persistent Volume (PV)](https://kubernetes.io/docs/concepts/storage/persistent-volumes/).
+
 ```bash
 Local host ./data/vc1/nginx1 mapped to /data/nginx1/ as pv vc-pv-nginx1
 Local host ./data/vc1/nginx2 mapped to /data/nginx2/ as pv vc-pv-nginx2
@@ -104,14 +115,15 @@ Local host ./data/vc1/nginx3 mapped to /data/nginx3/ as pv vc-pv-nginx3
 ```
 
 
-- Each pod/deployment then have a pvc created in it's assigned pv, these are in the same namespace where the app/pod will reside, i.e.: 
+Each pod/deployment then claims storage aka PVC which consumes storage from the PV which is referred to as cluster resource, the PVC reside insame namespace as the app/pod (PV's are global).
+
 ```bash
 ns: webstack1 for vc-pvc-nginx1 inside vc-pv-nginx1
 ns: webstack1 for vc-pvc-nginx2 inside vc-pv-nginx2
 ns: webstack2 for vc-pvc-nginx3 inside vc-pv-nginx3
 ```
 
-Using the above pattern the pod's can move across the cluster onto any worker and still have access to it's pvc.
+Using the above pattern the pod's can move across the cluster onto any worker and still have access to its data by accessing it's PVC.
 
 NOTE: was the above to be done on a Kubernets environment, deployed on anything other than vCluster/Docker then the Kubernetes would need access to a shared file system/volume across the nodes, a file system that is cluster aware, mountable across multiple hosts concurrently, i.e. [CEPHFS](https://ceph.io/en/), etc.
 
