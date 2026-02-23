@@ -156,6 +156,8 @@ We have this **README.md** files, covering the overview and then **Deploy_1.md**
 
 - See `Deploy_2.md` - Three web based apps in two Namespaces, with Single Traefik Application Proxy and two Ingress Controllers
 
+**Do take note of the notes at the bottom of Deploy_1.md and Deploy_2.md.**
+
 ### Full Deployment: Deploy_2.md
 
 Pods:
